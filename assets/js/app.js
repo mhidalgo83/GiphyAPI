@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    
     //Array of topics, allow new topcs to be pushed into this array
     var topics = ['Steve Carell', 'Will Ferrell', 'Chris Farley', 'Nick Offerman'];
     // Create a function that displays all gif buttons
@@ -27,17 +28,17 @@ $(document).ready(function () {
 
         })
     }
-    console.log(topics);
+
     displayGifButtons();
     newBtn();
     // Create a function that displays all of the gif
-    function displayGif() {
+    function displayGif(){
         var topic = $(this).attr("data-name");
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-            topic + "&api_key=kOySTnvMI920lJbjeTYgvCU4j0NwgHG7=10";
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=kOySTnvMI920lJbjeTYgvCU4j0NwgHG7&limit=10";
+        console.log(queryURL);
         $.ajax({
-            URL: queryURL,
-            method: "GET"
+            url: queryURL,
+            method: 'GET'
         })
             .then(function (response) {
                 //Empties old gifs...
@@ -51,7 +52,6 @@ $(document).ready(function () {
                 }
 
                 for (var i = 0; i < results.length; i++) {
-                    if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
 
                         // Stores rating in a variable...
                         var rating = results[i].rating;
@@ -65,20 +65,32 @@ $(document).ready(function () {
 
                         // Topic gif
                         var topicImage = $("<img>");
-                        topicImage.attr("src", results[i].image.fixed_height.url);
+                        topicImage.attr("src", results[i].images.fixed_height_small_still.url);
                         topicImage.attr("data-still", results[i].images.fixed_height_small_still.url);
                         topicImage.attr("data-animate", results[i].images.fixed_height_small.url);
                         topicImage.attr("data-state", "still");
                         topicImage.addClass("image");
 
                         //Appends all images to html...
-                        gifDiv.append(gifRating);
                         gifDiv.append(topicImage);
                         $("#gifView").prepend(gifDiv);
-                    }
+                    
                 }
             })
     }
-    // Call the functions & Methods
+    // Call the functions & Methods...
     displayGif();
+
+    // Listeners...
+    $(document).on("click", ".topic", displayGif);
+    $(document).on("click", ".image", function () {
+        var state = $(this).attr('data-state');
+        if (state == 'still') {
+            $(this).attr('src', $(this).data('animate'));
+            $(this).attr('data-state', 'animate');
+        } else {
+            $(this).attr('src', $(this).data('still'));
+            $(this).attr('data-state', 'still');
+        }
+    });
 });
