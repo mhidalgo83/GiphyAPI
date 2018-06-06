@@ -1,7 +1,7 @@
 $(document).ready(function () {
     
     //Array of topics, allow new topcs to be pushed into this array
-    var topics = ['Steve Carell', 'Will Ferrell', 'Chris Farley', 'Nick Offerman'];
+    var topics = [];
     // Create a function that displays all gif buttons
     function displayGifButtons() {
         $("#gifButton").empty();
@@ -15,11 +15,12 @@ $(document).ready(function () {
         }
     };
 
+    
     // Create a function to add a new topic button
     function newBtn() {
         $("#addGif").on("click", function () {
             var topic = $("#topic-input").val().trim();
-            if (topic === '') {
+            if (topic === " ") {
                 return false;
             }
             topics.push(topic);
@@ -31,7 +32,8 @@ $(document).ready(function () {
 
     displayGifButtons();
     newBtn();
-    // Create a function that displays all of the gif
+    
+    // Create a function that displays all of the gifs...
     function displayGif(){
         var topic = $(this).attr("data-name");
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=kOySTnvMI920lJbjeTYgvCU4j0NwgHG7&limit=10";
@@ -78,8 +80,7 @@ $(document).ready(function () {
                 }
             })
     }
-    // Call the functions & Methods...
-    displayGif();
+    
 
     // Listeners...
     $(document).on("click", ".topic", displayGif);
