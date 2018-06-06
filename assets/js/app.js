@@ -10,6 +10,7 @@ $(document).ready(function () {
             gifButton.addClass("topic");
             gifButton.addClass("btn btn-primary")
             gifButton.attr("data-name", topics[i]);
+            gifButton.attr("style", "margin: 5px");
             gifButton.text(topics[i]);
             $("#gifButton").append(gifButton);
         }
@@ -57,13 +58,21 @@ $(document).ready(function () {
 
                         // Stores rating in a variable...
                         var rating = results[i].rating;
+                        var title = results[i].title;
+                        console.log(title);
 
                         // Creates div for gifs...
                         var gifDiv = $("<div>").addClass("gifDiv");
+                        gifDiv.attr("style", "float: left");
 
                         // Creates p for rating
                         var gifRating = $("<p>").text("Rating: " + rating);
                         gifDiv.append(gifRating);
+
+                        // Creates a p tag for title...
+                        var gifTitle = $("<p>").text("Title: " + title);
+                        gifTitle.attr("style", "padding: 5px");
+                        gifDiv.append(gifTitle);
 
                         // Topic gif
                         var topicImage = $("<img>");
@@ -71,6 +80,7 @@ $(document).ready(function () {
                         topicImage.attr("data-still", results[i].images.fixed_height_small_still.url);
                         topicImage.attr("data-animate", results[i].images.fixed_height_small.url);
                         topicImage.attr("data-state", "still");
+                        topicImage.attr("style", "padding: 5px");
                         topicImage.addClass("image");
 
                         //Appends all images to html...
